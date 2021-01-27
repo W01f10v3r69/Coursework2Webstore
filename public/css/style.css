@@ -181,6 +181,19 @@ img {
   outline: none;
 }
 
+#orderPhone{
+  width: 100%;
+  display: inline-block;
+  padding: 12px 20px;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  box-sizing: border-box;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  outline: none;
+}
+
 .checkout-container > p {
   font-size: 1.1em;
   margin-top: 1em;
