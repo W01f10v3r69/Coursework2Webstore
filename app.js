@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 });
 
 //GET route that returns lessons
-app.get('lessons', (req, res) => {
+app.get('/lessons', (req, res) => {
     con.then(client => client.db('afterschooldb').collection('lessons').find({}).toArray((err, result) => {
         if(err) console.log(err);
         res.send(JSON.stringify(result));
