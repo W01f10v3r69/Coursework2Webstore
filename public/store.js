@@ -109,7 +109,7 @@ var webstore = new Vue({
             return count;
         },
         async fetchData() {
-            const response = await fetch('/lessons');
+            const response = await fetch('https://coursework2-webstore.herokuapp.com/lessons');
             this.lessons = await response.json();
         },
         async placeOrder(){
@@ -125,7 +125,7 @@ var webstore = new Vue({
                 }
 
                 //Fetch to POST order data
-                fetch('/placeOrder', {
+                fetch('https://coursework2-webstore.herokuapp.com/placeOrder', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -138,7 +138,7 @@ var webstore = new Vue({
             const updateData = this.cart;
 
             //Fetch to update available lesson spaces after order
-            fetch('/updateSpaces', {
+            fetch('https://coursework2-webstore.herokuapp.com/updateSpaces', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
