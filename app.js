@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 //GET route that returns lessons
-app.get('/lessons', (req, res) => {
+app.get('https://coursework2-webstore.herokuapp.com//lessons', (req, res) => {
     con.then(client => client.db('afterschooldb').collection('lessons').find({}).toArray((err, result) => {
         if(err) console.log(err);
         res.send(JSON.stringify(result));
@@ -54,7 +54,7 @@ app.get('/lessons', (req, res) => {
 });
 
 //POST route that saves order to database
-app.post('/placeOrder', (req, res) => {
+app.post('https://coursework2-webstore.herokuapp.com//placeOrder', (req, res) => {
     con.then(client => client.db('afterschooldb').collection('orders').insertOne(req.body, (err, result) => {
         if(err) throw (err);
         res.send(result.ops)
@@ -62,7 +62,7 @@ app.post('/placeOrder', (req, res) => {
 });
 
 //PUT route that updates available lesson spaces in database
-app.put('/updateSpaces', (req, res) => {
+app.put('https://coursework2-webstore.herokuapp.com//updateSpaces', (req, res) => {
     let data = req.body;
     for(let i = 0, l = data.length; i < l; i++) {
         let lessonID =  data[i].lesson_id;
