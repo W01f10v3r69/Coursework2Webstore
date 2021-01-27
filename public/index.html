@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <title>After School Classes</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
+
+    <body>
+        <div id="app">
+            <ul class="navbar">
+                <li style="float:left"><h1>{{sitename}}</h1></li>
+                  <li>
+                    <button v-if='showCheckoutButton()' @click='showCheckout'></span>{{navButtonName}}</button>
+                    <button disabled ='disabled' style='display:none' v-else></button> 
+                </li>
+                <li class="dropdown" style='float:left'>
+                    <a href="javascript:void(0)" class="dropbtn">Sort Classes</a>
+                    <div class="dropdown-content">
+                        <!-- Sorting oprions in dropdown Menu -->
+                        <button id="priceAscending" @click="sort('priceAscending')">Price Ascending</button>
+                        <button id="scoreDescending" @click="sort('priceDescending')">Price Descending</button>
+                        <button id="topicAscending" @click="sort('topicAscending')">Topic Ascending</button>
+                        <button id="topicDescending" @click="sort('topicDescending')">Topic Descending</button>
+                        <button id="locationAscending" @click="sort('locationAscending')">Location Ascending</button>
+                        <button id="locationDescending" @click="sort('locationDescending')">Location Descending</button>
+                        <button id="availabilityAscending" @click="sort('availabilityAscending')">Availability Ascending</button>
+                        <button id="availabilityDescending" @click="sort('availabilityDescending')">Availability Descending</button>
+                    </div>
+                  </li>
+            </ul>
+            <main>
+                <div v-if='showClasses'>
+                    <h1 id="classesPageTitle">Classes</h1>
+                    <!-- V-For to show classes -->
+                    <div v-for="lesson in lessons" class="card">
+                        <h2 v-text ="lesson.topic"></h2>
+                        <figure>
+                            <img v-bind:src="lesson.image">
+                        </figure>
+                        <p>Location: {{lesson.location}}</p>
+                        <p>Price: £{{lesson.price}}</p>
+                        <p>Description: {{lesson.description}}</p>
+                        <p>Maximum Class Size: {{lesson.maximumSpaces}} People</p>  
+                        <p>Available Spaces: {{lesson.availableSpaces}} Spaces</p>           
+                        
+                        <!-- v-if to check how many classes with the particular id are in the shopping 
+                        cart against what are available in the inventory of that particular lesson-->
+                        <h3 v-if="lesson.availableSpaces === cartCount(lesson.id)" style='color:#e61010'>
+                            Fully Booked!
+                        </h3>
+                        <h3 v-else-if="lesson.availableSpaces - cartCount(lesson.id) < 4" style='color:#d96609'>
+                            Only {{lesson.availableSpaces - cartCount(lesson.id)}} Places Left!
+                        </h3>
+                        <h3 v-else style='color: #329e08'>Places Available!</h3>
+                    <!-- The button will display when 'Add to Cart is True -->                        
+                    <button @click='addToCart(lesson)' v-if='canAddToCart(lesson)'> Add to Cart </button>
+                        <!-- This button will be disabled otherwise -->
+                    <button disabled='disabled' style='display:none' v-else>Add to Cart</button>                  
+                </div>
+                </div>
+            <!-- Checkout form -->
+            <div v-else id="checkoutForm">
+                <form id="orderForm" class="modal-content animate">
+                <div class="checkout-container">
+                <h2>Checkout</h2>
+                <p>
+                    <strong>First Name:</strong> <input v-model.trim="order.firstName" type="text" id="orderFirstName" name="orderFirstName"/>
+                </p>
+                <p>
+                    <strong>Last Name:</strong> <input v-model.trim="order.lastName" type="text" id="orderLastName" name="orderLastName"/>
+                </p>
+                <p>
+                    <strong>Address:</strong> <input v-model='order.address' id="orderAddress" name="orderAddress"/>
+                </p>
+                <p>
+                    <strong>City:</strong><input v-model ='order.city' id="orderCity" name="orderCity"/>
+                </p>
+                    <strong>Phone Number:</strong><input v-model ='order.phone' id="orderPhone" name="orderPhone"/> 
+                </p>
+                
+                <label for="gift">Ship as Gift?</label>
+                <input type="checkbox" id="gift" value ="true" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.dontSendGift" name="orderMethod"> </br>  
+                <label for="gift">Shipping Destination</label>         
+                <input type="radio" id="home" value="Home" v-model="order.method" name="orderMethod">
+                <label for="home">Home</label>             
+                <input type ="radio" id="business" value="Business" v-model="order.method" name="orderMethod">
+                <label for="business">Business</label>
+            
+                <h2>Order Information</h2>
+                <p>First Name: {{order.firstName}}</p>
+                <p>Last Name: {{order.lastName}}</p>
+                <p>Address: {{order.address}}</p>
+                <p>City: {{order.city}}</p> 
+                <p>Phone Number: {{order.phone}}</p> 
+                <p>Gift: {{order.gift}}</p>
+                <p>Method: {{order.method}}</p>
+
+                <button @click="placeOrder()" v-if="checkForm(order.firstName, order.lastName, order.phone)" class="submit-checkout-btn">Place Order</button>
+                <button disabled ='disabled' style='display:none' v-else>Place Order</button> 
+            </form>
+            </div>
+            </div>
+            <!-- Div for Cart Items -->
+            <div id="cartItemsDiv">
+            </div>
+            </main>
+        </div>
+    </body>
+    <script src="store.js"></script>
+</html>
