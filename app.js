@@ -25,8 +25,7 @@ app.use((req, res, next) => {
     next();
 });
 
-let con = MongoClient.connect('mongodb+srv://lukegrech:webstorepw@cw2webstore.qpoye.mongodb.net/Cw2Webstore?retryWrites=true&w=majority', 
-{useUnifiedTopology: true}, { useNewUrlParser: true });
+let con = MongoClient.connect('mongodb+srv://lukegrech:webstorepw@cw2webstore.qpoye.mongodb.net/Cw2Webstore?retryWrites=true&w=majority', {useUnifiedTopology: true});
 
 //Static File Middleware
 app.use((req, res, next) => {
